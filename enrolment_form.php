@@ -32,7 +32,7 @@ $hash = '';
 
 
 if ($this->get_config('checkproductionmode') == 1) {
-    $url = "https://secure.payu.in/_payment";
+    $url = "https://secure.payu.com/api/v2_1/orders";
     $testmode = "false";
 } else {
     $url = "https://test.payu.in/_payment ";
@@ -67,7 +67,7 @@ $fingerprint = strtolower(hash('sha512', $hashSequence));
 		<input type="hidden" name="surl" value="<?php echo $CFG->wwwroot; ?>/enrol/payumoney/ipn.php" />
                 <input type="hidden" name="udf1" value="<?php echo $udf1 ?>" />
 		<input type="hidden" name="udf2" value="<?php echo $enrolperiod; ?>" />
-		<input type="hidden" name="service_provider" value="payu_paisa" />
+		<input type="hidden" name="OpenPayu-Signature" value="sender=145227;algorithm=SHA-256;signature=bc94a8026d6032b5e216be112a5fb7544e66e23e68d44b4283ff495bdb3983a8">
 		<input type="submit" id="sub_button" value="" />
 	</form>
 </p>
