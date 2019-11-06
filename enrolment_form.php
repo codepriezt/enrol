@@ -22,8 +22,8 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-$username = $this->get_config('merchantkey');
-$password = $this->get_config('merchantsalt');
+$username = $this->get_config('username');
+$password = $this->get_config('password');
 $txnid = substr(hash('sha256', mt_rand() . microtime()), 0, 20);
 $amount = $cost;
 $productinfo = $coursefullname;
@@ -39,10 +39,10 @@ $hash = '';
 
 
 if ($this->get_config('checkproductionmode') == 1) {
-    $url = "https://staging.payu.co.za/service/1.0?wsdl";
+    $url = "https://staging.payu.co.za/service/PayUAPI?wsdl";
     $demoMode = "true";
 } else {
-    $url = "https://staging.payu.co.za/service/1.0?wsdl";
+    $url = "https://staging.payu.co.za/service/PayUAPI?wsdl";
     $demoMode = "true";
 }
 //$invoice = date('Ymd') . "-" . $instance->courseid . "-" . hash('crc32', $txnid); //udf3
