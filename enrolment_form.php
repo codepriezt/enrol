@@ -22,8 +22,8 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-$username = $this->get_config('username');
-$password = $this->get_config('password');
+$username = 200208;
+$password = "g1Kzk8GY";
 $txnid = substr(hash('sha256', mt_rand() . microtime()), 0, 20);
 $amount = $cost;
 $productinfo = $coursefullname;
