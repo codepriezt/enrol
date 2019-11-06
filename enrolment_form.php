@@ -28,15 +28,22 @@ $txnid = substr(hash('sha256', mt_rand() . microtime()), 0, 20);
 $amount = $cost;
 $productinfo = $coursefullname;
 $label = "Pay Now";
+$safeKey = "{A580B3C7-3EF3-47F1-9B90-4047CE0EC54C}";
+$transactionType ="PAYMENT";
+$merchantReference = 200208;
+$demoMode =true;
+$returnUrl ="http://qa.payu.co.za/integration-qa/internal-tools/demos/developer/payu-redirect-payment-page/send-getTransaction-via-soap.php";
+$cancelUrl="http://qa.payu.co.za/integration-qa/internal-tools/demos/developer/payu-redirect-payment-page/cancel-page.php"; 
+$supportedPaymentMethods ="DEBITCARD";
 $hash = '';
 
 
 if ($this->get_config('checkproductionmode') == 1) {
-    $url = "https://secure.payu.com/api/v2_1/orders";
-    $testmode = "false";
+    $url = "https://staging.payu.co.za/service/1.0?wsdl";
+    $demoMode = "true";
 } else {
-    $url = "https://test.payu.in/_payment ";
-    $testmode = "true";
+    $url = "https://staging.payu.co.za/service/1.0?wsdl";
+    $demoMode = "true";
 }
 //$invoice = date('Ymd') . "-" . $instance->courseid . "-" . hash('crc32', $txnid); //udf3
 $_SESSION['timestamp'] = $timestamp = time();
@@ -60,14 +67,19 @@ $fingerprint = strtolower(hash('sha512', $hashSequence));
 		<input type="hidden" name="hash" value="<?php echo $fingerprint; ?>" />
 		<input type="hidden" name="txnid" value="<?php echo $txnid; ?>" />
 		<input type="hidden" name="amount" value="<?php echo $amount; ?>" />
-		<input type="hidden" name="productinfo" value="<?php echo $productinfo; ?>" />
+		<input type="hidden" name="description" value="<?php echo $productinfo; ?>" />
+		<input type="hidden" name="safeKey" value="<?php echo $safeKey; ?>" />
+		<input type="hidden" name="merchantReference" value="<?php echo $merchantReference; ?>" />
+		<input type="hidden" name="transactionType" value="<?php echo $transactionType; ?>" />	
+		<input type="hidden" name="returnUrl" value="<?php echo $returnUrl; ?>" />		
+		<input type="hidden" name="cancelUrl" value="<?php echo $cancelUrl; ?>" />		
 		<input type="hidden" name="firstname" value="<?php echo $USER->firstname; ?>" />
 		<input type="hidden" name="email" value="<?php echo $USER->email; ?>" />
 		<input type="hidden" name="phone" value="<?php echo $_SESSION['timestamp']; ?>" />
 		<input type="hidden" name="surl" value="<?php echo $CFG->wwwroot; ?>/enrol/payumoney/ipn.php" />
-                <input type="hidden" name="udf1" value="<?php echo $udf1 ?>" />
+         <input type="hidden" name="udf1" value="<?php echo $udf1 ?>" />
 		<input type="hidden" name="udf2" value="<?php echo $enrolperiod; ?>" />
-		<input type="hidden" name="OpenPayu-Signature" value="sender=145227;algorithm=SHA-256;signature=bc94a8026d6032b5e216be112a5fb7544e66e23e68d44b4283ff495bdb3983a8">
+		
 		<input type="submit" id="sub_button" value="" />
 	</form>
 </p>
