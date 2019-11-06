@@ -22,8 +22,8 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-$merchantkey = $this->get_config('merchantkey');
-$merchantSALT = $this->get_config('merchantsalt');
+$username = $this->get_config('merchantkey');
+$password = $this->get_config('merchantsalt');
 $txnid = substr(hash('sha256', mt_rand() . microtime()), 0, 20);
 $amount = $cost;
 $productinfo = $coursefullname;
@@ -50,7 +50,7 @@ $_SESSION['timestamp'] = $timestamp = time();
 $udf1 = $instance->courseid.'-'.$USER->id.'-'.$instance->id.'-'.$context->id;
 $enrolperiod = $instance->enrolperiod;//udf2
 //Hash Sequence
-$hashSequence = $merchantkey . "|" . $txnid . "|" . $amount . "|" . $productinfo . "|" . $USER->firstname . "|" . $USER->email . "|" . $udf1 . "|" . $enrolperiod . "|||||||||" . $merchantSALT;
+$hashSequence = $username . "|" . $txnid . "|" . $amount . "|" . $productinfo . "|" . $USER->firstname . "|" . $USER->email . "|" . $udf1 . "|" . $enrolperiod . "|||||||||" . $password;
 $fingerprint = strtolower(hash('sha512', $hashSequence));
 
 ?>
@@ -63,8 +63,8 @@ $fingerprint = strtolower(hash('sha512', $hashSequence));
 <p>&nbsp;</p>
 <p>
 	<form method="post" action="<?php echo $url; ?>" >
-		<input type="hidden" name="key" value="<?php echo $merchantkey; ?>" />
-		<input type="hidden" name="hash" value="<?php echo $fingerprint; ?>" />
+		<input type="hidden" name="Username" value="<?php echo $username; ?>" />
+		<input type="hidden" name="Password" value="<?php echo $password; ?>" />
 		<input type="hidden" name="txnid" value="<?php echo $txnid; ?>" />
 		<input type="hidden" name="amount" value="<?php echo $amount; ?>" />
 		<input type="hidden" name="description" value="<?php echo $productinfo; ?>" />
