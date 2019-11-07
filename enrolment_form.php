@@ -92,14 +92,14 @@ $fingerprint = strtolower(hash('sha512', $hashSequence));
   cursor: pointer;
   font-weight: bold;
   height: 20px;
-  padding-bottom: 2px;
+  padding-bottom:2px;
   width: 301px;
   height: 59px;
 }
 </style>
 
 <script>
- const btn = docunent.getElementById('sub_button').addEventListener('submit'  , makeOrder);
+ const btn = document.getElementById('sub_button').addEventListener('submit'  , makeOrder);
 
 
  function makeOrder()
