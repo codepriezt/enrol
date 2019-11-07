@@ -21,8 +21,8 @@
  * @copyright  2017 Exam Tutor, Venkatesan R Iyengar
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-// require 'lib/nusoap.php';
-// $client = new nusoap_client("https://staging.payu.co.za/service/PayUAPI?wsdl");
+require 'lib/nusoap.php';
+$client = new nusoap_client("https://staging.payu.co.za/service/PayUAPI?wsdl");
 
 $username = 200208;
 $password = "g1Kzk8GY";
@@ -54,6 +54,49 @@ $enrolperiod = $instance->enrolperiod;//udf2
 $hashSequence = $username . "|" . $txnid . "|" . $amount . "|" . $productinfo . "|" . $USER->firstname . "|" . $USER->email . "|" . $udf1 . "|" . $enrolperiod . "|||||||||" . $password;
 $fingerprint = strtolower(hash('sha512', $hashSequence));
 
+
+
+   if(isset($_POST['submit']))
+		{
+			$username = $_POST['username'];
+			$password = $_POST['password'];
+			$amount = $_POST['amount'];
+			$safeKey = $_POST['safeKey'];
+			$transactionType = $_POST['transactionType'];
+			$firstname = $_POST['firstname'];
+			$email = $_POST['email'];
+			$phone = $_POST['phone'];
+			$description = $_POST['description'];
+			$cancelUrl = $_POST['cancelUrl'];
+			$returnURL = $_POST['returnUrl'];
+			$demoMode = true;
+			
+			
+					
+
+			$order = new stdClass();
+
+			$order->data = array(
+				$data->username = $username ,
+				$data->password = $password ,
+				$data->amount = $amount,
+				$data->safeKey = $safeKey,
+				$data->transactionType = $transactionType,
+				$data->firstname = $firstname ,
+				$data->email = $email ,
+				$data->phone = $phone ,
+				$data->description = $description ,
+				$data->cancelUrl = $cancelUrl,
+				$data->returnUrl = $returnUrl ,
+				$data->demoMode =$demoMode ,
+				$data->currency = "NGN"
+			);
+
+			$client->call('getResponse' , array($order));
+
+			
+		}
+
 ?>
 
 <div align="center">
@@ -64,7 +107,7 @@ $fingerprint = strtolower(hash('sha512', $hashSequence));
 <p><img alt="PayUMoney" src="<?php echo $CFG->wwwroot; ?>/enrol/payumoney/pix/payumoney-logo.jpg" /></p>
 <p>&nbsp;</p>
 <p>
-	<form method="post" action="<?php echo $url; ?>" >
+	<form method="post" action="" >
 		<input type="hidden" id="username" name="Username" value="<?php echo $username; ?>" />
 		<input type="hidden" id="password" name="Password" value="<?php echo $password; ?>" />
 		<input type="hidden" id="amount" name="amount" value="<?php echo $amount; ?>" />
