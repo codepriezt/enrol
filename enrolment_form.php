@@ -21,6 +21,10 @@
  * @copyright  2017 Exam Tutor, Venkatesan R Iyengar
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
+require 'lib/nusoap.php';
+require 'server.php';
+
+$client = new nusoap_client("https://staging.payu.co.za/service/PayUAPI?wsdl");
 
 $username = 200208;
 $password = "g1Kzk8GY";
@@ -30,7 +34,6 @@ $productinfo = $coursefullname;
 $label = "Pay Now";
 $safeKey = "{A580B3C7-3EF3-47F1-9B90-4047CE0EC54C}";
 $transactionType ="PAYMENT";
-$merchantReference = 200208;
 $demoMode =true;
 $returnUrl ="http://qa.payu.co.za/integration-qa/internal-tools/demos/developer/payu-redirect-payment-page/send-getTransaction-via-soap.php";
 $cancelUrl="http://qa.payu.co.za/integration-qa/internal-tools/demos/developer/payu-redirect-payment-page/cancel-page.php"; 
@@ -54,6 +57,7 @@ $hashSequence = $username . "|" . $txnid . "|" . $amount . "|" . $productinfo . 
 $fingerprint = strtolower(hash('sha512', $hashSequence));
 
 ?>
+
 <div align="center">
 <p>This course requires a payment for entry.</p>
 <p><b><?php echo $instancename; ?></b></p>
@@ -62,20 +66,19 @@ $fingerprint = strtolower(hash('sha512', $hashSequence));
 <p><img alt="PayUMoney" src="<?php echo $CFG->wwwroot; ?>/enrol/payumoney/pix/payumoney-logo.jpg" /></p>
 <p>&nbsp;</p>
 <p>
-	<form method="post" action="<?php echo $url; ?>" >
-		<input type="hidden" name="Username" value="<?php echo $username; ?>" />
-		<input type="hidden" name="Password" value="<?php echo $password; ?>" />
-		<input type="hidden" name="txnid" value="<?php echo $txnid; ?>" />
-		<input type="hidden" name="amount" value="<?php echo $amount; ?>" />
-		<input type="hidden" name="description" value="<?php echo $productinfo; ?>" />
-		<input type="hidden" name="safeKey" value="<?php echo $safeKey; ?>" />
-		<input type="hidden" name="merchantReference" value="<?php echo $merchantReference; ?>" />
-		<input type="hidden" name="transactionType" value="<?php echo $transactionType; ?>" />	
-		<input type="hidden" name="returnUrl" value="<?php echo $returnUrl; ?>" />		
-		<input type="hidden" name="cancelUrl" value="<?php echo $cancelUrl; ?>" />		
-		<input type="hidden" name="firstname" value="<?php echo $USER->firstname; ?>" />
-		<input type="hidden" name="email" value="<?php echo $USER->email; ?>" />
-		<input type="hidden" name="phone" value="<?php echo $_SESSION['timestamp']; ?>" />
+	<form method="post" action="" >
+		<input type="hidden" id="username" name="Username" value="<?php echo $username; ?>" />
+		<input type="hidden" id="password" name="Password" value="<?php echo $password; ?>" />
+		<input type="hidden" id="amount" name="amount" value="<?php echo $amount; ?>" />
+		<input type="hidden" id="desc" name="description" value="<?php echo $productinfo; ?>" />
+		<input type="hidden" id="safeKey" name="safeKey" value="<?php echo $safeKey; ?>" />
+		<input type="hidden" id="ref" name="merchantReference" value="<?php echo $txnid; ?>" />
+		<input type="hidden" id="txType" name="transactionType" value="<?php echo $transactionType; ?>" />	
+		<input type="hidden" id="retUrl" name="returnUrl" value="<?php echo $returnUrl; ?>" />		
+		<input type="hidden" id="cancelURl" name="cancelUrl" value="<?php echo $cancelUrl; ?>" />		
+		<input type="hidden" id="fm" name="firstname" value="<?php echo $USER->firstname; ?>" />
+		<input type="hidden" id="email"name="email" value="<?php echo $USER->email; ?>" />
+		<input type="hidden" id="phone" name="phone" value="<?php echo $_SESSION['timestamp']; ?>" />
 		<input type="hidden" name="surl" value="<?php echo $CFG->wwwroot; ?>/enrol/payumoney/ipn.php" />
          <input type="hidden" name="udf1" value="<?php echo $udf1 ?>" />
 		<input type="hidden" name="udf2" value="<?php echo $enrolperiod; ?>" />
@@ -96,3 +99,48 @@ $fingerprint = strtolower(hash('sha512', $hashSequence));
   height: 59px;
 }
 </style>
+
+<?php
+		if(isset($_POST['submit']))
+		{
+			$username = $_POST['username'];
+			$password = $_POST['password'];
+			$amount = $_POST['amount'];
+			$safeKey = $_POST['safeKey'];
+			$transactionType = $_POST['transactionType'];
+			$firstname = $_POST['firstname'];
+			$email = $_POST['email'];
+			$phone = $_POST['phone'];
+			$description = $_POST['description'];
+			$cancelUrl = $_POST['cancelUrl'];
+			$returnURL = $_POST['returnUrl'];
+			$demoMode = true;
+			
+			
+					
+
+			$order = new stdClass();
+
+			$order->data = array(
+				$data->username = $username ,
+				$data->password = $password ,
+				$data->amount = $amount,
+				$data->safeKey = $safeKey,
+				$data->transactionType = $transactionType,
+				$data->firstname = $firstname ,
+				$data->email = $email ,
+				$data->phone = $phone ,
+				$data->description = $description ,
+				$data->cancelUrl = $cancelUrl,
+				$data->returnUrl = $returnUrl ,
+				$data->demoMode =$demoMode ,
+				$data->currency = "NGN"
+			);
+
+			$client->call('getResponse' , array($order));
+
+			
+		}
+
+
+?>
