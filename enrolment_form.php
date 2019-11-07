@@ -56,47 +56,6 @@ $fingerprint = strtolower(hash('sha512', $hashSequence));
 
 
 
-   if(isset($_POST['submit']))
-		{
-			$username = $_POST['username'];
-			$password = $_POST['password'];
-			$amount = $_POST['amount'];
-			$safeKey = $_POST['safeKey'];
-			$transactionType = $_POST['transactionType'];
-			$firstname = $_POST['firstname'];
-			$email = $_POST['email'];
-			$phone = $_POST['phone'];
-			$description = $_POST['description'];
-			$cancelUrl = $_POST['cancelUrl'];
-			$returnURL = $_POST['returnUrl'];
-			$demoMode = true;
-			
-			
-					
-
-			$order = new stdClass();
-
-			$order->data = array(
-				$data->username = $username ,
-				$data->password = $password ,
-				$data->amount = $amount,
-				$data->safeKey = $safeKey,
-				$data->transactionType = $transactionType,
-				$data->firstname = $firstname ,
-				$data->email = $email ,
-				$data->phone = $phone ,
-				$data->description = $description ,
-				$data->cancelUrl = $cancelUrl,
-				$data->returnUrl = $returnUrl ,
-				$data->demoMode =$demoMode ,
-				$data->currency = "NGN"
-			);
-
-			$client->call('getResponse' , array($order));
-
-			
-		}
-
 ?>
 
 <div align="center">
@@ -108,21 +67,21 @@ $fingerprint = strtolower(hash('sha512', $hashSequence));
 <p>&nbsp;</p>
 <p>
 	<form method="post" action="" >
-		<input type="hidden" id="username" name="Username" value="<?php echo $username; ?>" />
-		<input type="hidden" id="password" name="Password" value="<?php echo $password; ?>" />
-		<input type="hidden" id="amount" name="amount" value="<?php echo $amount; ?>" />
-		<input type="hidden" id="desc" name="description" value="<?php echo $productinfo; ?>" />
-		<input type="hidden" id="safeKey" name="safeKey" value="<?php echo $safeKey; ?>" />
-		<input type="hidden" id="ref" name="merchantReference" value="<?php echo $txnid; ?>" />
-		<input type="hidden" id="txType" name="transactionType" value="<?php echo $transactionType; ?>" />	
-		<input type="hidden" id="retUrl" name="returnUrl" value="<?php echo $returnUrl; ?>" />		
-		<input type="hidden" id="cancelURl" name="cancelUrl" value="<?php echo $cancelUrl; ?>" />		
-		<input type="hidden" id="fm" name="firstname" value="<?php echo $USER->firstname; ?>" />
-		<input type="hidden" id="email"name="email" value="<?php echo $USER->email; ?>" />
-		<input type="hidden" id="phone" name="phone" value="<?php echo $_SESSION['timestamp']; ?>" />
-		<input type="hidden" name="surl" value="<?php echo $CFG->wwwroot; ?>/enrol/payumoney/ipn.php" />
+		<input type="hidden"  name="Username" value="<?php echo $username; ?>" />
+		<input type="hidden"  name="Password" value="<?php echo $password; ?>" />
+		<input type="hidden"  name="amount" value="<?php echo $amount; ?>" />
+		<input type="hidden"  name="description" value="<?php echo $productinfo; ?>" />
+		<input type="hidden"  name="safeKey" value="<?php echo $safeKey; ?>" />
+		<input type="hidden"  name="merchantReference" value="<?php echo $txnid; ?>" />
+		<input type="hidden"  name="transactionType" value="<?php echo $transactionType; ?>" />	
+		<input type="hidden"  name="returnUrl" value="<?php echo $returnUrl; ?>" />		
+		<input type="hidden"  name="cancelUrl" value="<?php echo $cancelUrl; ?>" />		
+		<input type="hidden"  name="firstname" value="<?php echo $USER->firstname; ?>" />
+		<input type="hidden"  name="email" value="<?php echo $USER->email; ?>" />
+		<input type="hidden"  name="phone" value="<?php echo $_SESSION['timestamp']; ?>" />
+		<input type="hidden"  name="surl" value="<?php echo $CFG->wwwroot; ?>/enrol/payumoney/ipn.php" />
          <input type="hidden" name="udf1" value="<?php echo $udf1 ?>" />
-		<input type="hidden" name="udf2" value="<?php echo $enrolperiod; ?>" />
+		<input type="hidden"  name="udf2" value="<?php echo $enrolperiod; ?>" />
 		
 		<input type="submit" id="sub_button" value="" />
 	</form>
