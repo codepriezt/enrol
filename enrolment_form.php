@@ -132,11 +132,11 @@ $fingerprint = strtolower(hash('sha512', $hashSequence));
 	}
 
 	const http  = new XMLHttpRequest();
-	http.post('server.php' , data , function(err , res){
+	http.post('server.php' , data , function(err , data){
 		if(err){
 			console.log(err)
 		}
-		console.log(res)
+		console.log(data)
 	})
 	 e.preventDefault();
  }
